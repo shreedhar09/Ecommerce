@@ -3,9 +3,7 @@ let Joi = require('@hapi/joi');
 let jwt = require('jsonwebtoken');
 let config = require('config');
 
-let FileSchema = new mongoose.Schema({
-    image:{type:String, required:true}
-});
+
 
 
 let UserSchema = new mongoose.Schema({
@@ -29,7 +27,7 @@ let UserSchema = new mongoose.Schema({
  }
 
 let User = mongoose.model('users', UserSchema);
-let File = mongoose.model('File', FileSchema);
+
 
 function ValidationError(message){
     let Schema = Joi.object().keys({
