@@ -1,6 +1,19 @@
 let mongoose = require('mongoose');
 let Joi = require('@hapi/joi');
 
+
+let subCategorySchema = new mongoose.Schema({
+    name : {type:String,required:true,min:5,max:250}
+});
+
+let SubCategory = mongoose.model('subCategory', subCategorySchema);
+
+let CategorySchema = new mongoose.Schema({
+    categoryName : {type:String,required:true,min:5,max:250},
+    subCategory : [subCategorySchema]
+});
+let Category = mongoose.model('category', CategorySchema);
+
 let ProductSchema = new mongoose.Schema({
     name:{type:String,required:true,min:5,max:250},
     image:{type:String,required:true,min:5,max:250},
@@ -9,8 +22,8 @@ let ProductSchema = new mongoose.Schema({
     offerPrice:{type:Number,required:true,minlength:1},
     isAvailable:{type:Boolean,required:true},
     isTodayOffer:{type:Boolean,required:true},
-    category:{type:String,required:true,min:5,max:250},
-    subCategory:{type:String,required:true,min:5,max:250},
+    category:[Category],
+    subCategory:[SubCategory],
     isAdmin:{type:Boolean},
     recordDate:{type:Date,default:Date.now},
     updateDate:{type:Date,default:Date.now}
