@@ -8,10 +8,10 @@ let auth = require('../middleware/auth');
 
 
 router.get('/allUser', async(req,res) => {
-    let user = await u.User.find()
-   
-    ;
-    res.send(user);
+    let user = await u.User.find();
+    res.send({
+        message : user
+    });
 } );
 
 router.post('/newuser', async(req,res) => {
