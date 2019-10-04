@@ -42,4 +42,4 @@ function ValidationError(message){
     return Joi.validate(message,Schema);
 }
 
-module.exports = {User,ValidationError,File};
+module.exports = {User,ValidationError};

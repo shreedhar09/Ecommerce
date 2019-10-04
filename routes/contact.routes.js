@@ -1,10 +1,10 @@
 let express = require('express');
 let router = express.Router();
 let c = require('../model/contact');
+const Admin = require('../middleware/admin')
 
 
-
-router.get('/allContact',async(req,res) => {
+router.get('/allContact', async(req,res) => {
     let user = await c.Contact.find()
    
     ;
