@@ -22,7 +22,7 @@ let CardItemRecords = mongoose.model('cardItemRecords', CardItemSchema);
 
 let usercardSchema = new mongoose.Schema({
     userEmail : {type:String,required:true,min:5,max:250},
-    cardItems : [CardItemSchema]
+    cardItems :{type: CardItemSchema, required:true} 
 })
 
 let UserCardItem = mongoose.model('userCardItem', usercardSchema);

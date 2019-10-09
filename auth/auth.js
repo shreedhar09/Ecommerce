@@ -17,6 +17,7 @@ router.post('/', authmid, async (req,res) => {
   res.send(token);
 });
 
+
 function ValidationError(message) {
     let Schema = Joi.object().keys({
         UserLogin:{

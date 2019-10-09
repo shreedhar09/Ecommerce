@@ -14,7 +14,7 @@ let UserSchema = new mongoose.Schema({
         userEmail:{type:String,required:true,unique:true},
         userPassword:{type:String,required:true}
     },
-    termsAcceptCheck:{ type : Boolean},
+    termsAcceptCheck:{ type : Boolean,required:true},
     resetPasswordToken : {type:String},
     resetPasswordExpires: {type:Date},
     isAdmin:{type:Boolean},
@@ -37,7 +37,10 @@ function ValidationError(message){
           UserLogin: {
             userEmail:Joi.string().required(),
             userPassword: Joi.string().required()
-          }        
+          } ,       
+          termsAcceptCheck: Joi.boolean().required(),
+          isAdmin: Joi.boolean(),
+          newsLetterCheck:Joi.boolean()
     });
     return Joi.validate(message,Schema);
 }
