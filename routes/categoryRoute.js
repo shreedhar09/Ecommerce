@@ -3,10 +3,8 @@ let router = express.Router();
 let category = require('../model/categoryModel');
 let subcategory = require('../model/subCategoryModel');
 
+// Add Category 
 router.post('/addCategory', async(req,res) => {
-    // let cat= new category.Category(req.body);
-    // cat= await cat.save();
-    //     res.send({message:'Success', data:cat})
 
     try {
       
@@ -26,7 +24,7 @@ router.post('/addCategory', async(req,res) => {
 });
 
 
-
+// Show all category
 router.get('/allCategory', async(req,res) => {
     let cat = await category.Category.find()
    
@@ -34,7 +32,7 @@ router.get('/allCategory', async(req,res) => {
     res.send(cat);
 } );
 
-
+// find category by id
 router.get('/findCategoryById/:id', async(req,res) => {
     let subCat = await category.Category.findById(req.params.id);
     if(!subCat) {
@@ -43,13 +41,14 @@ router.get('/findCategoryById/:id', async(req,res) => {
     res.send(subCat);
 } );
 
+//Delete category by Id
 router.delete('/deleteCategoryById/:id',async (req,res) => {
     let data = await category.Category.findByIdAndRemove(req.params.id);
     if(!data) {return res.status(402).send('invalid category')}
     res.send({message: 'remve the data'});
     });
 
-//pagination cayegory
+//pagination category
 router.post('/pageIndex/:page' , async(req,res) => {
     let perPage = 10;
     let page = req.params.page || 1;
@@ -65,6 +64,7 @@ router.post('/pageIndex/:page' , async(req,res) => {
         totaluserCount: totalUser,
         totalPages: totalPages
     })
-})      
+})    
+
 
 module.exports = router;

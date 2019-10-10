@@ -4,6 +4,8 @@ let u = require('../model/userRegistration');
 let bcrypt = require('bcrypt');
 let Joi = require('@hapi/joi');
 
+
+// Reset password by token
 router.post('/:token', async(req,res) => {
     try {
     let user = await u.User.findOne({resetPasswordToken:req.params.token, resetPasswordExpires:{$gt:Date.now()}});

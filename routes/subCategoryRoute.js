@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let sc = require('../model/subCategoryModel');
 
-
+// Add subcategory
 router.post('/addSubCategory', async(req,res) => {
     let subcat= new sc.SubCategory(req.body);
     subcat= await subcat.save();
@@ -10,14 +10,14 @@ router.post('/addSubCategory', async(req,res) => {
 
 });
 
-
+//Show all Subcategory
 router.get('/allSubCategory', async(req,res) => {
     let subCat = await sc.SubCategory.find();
    
     res.send(subCat);
 } );
 
-//pagination
+//pagination subcategory
 router.post('/pageIndex/:page' , async(req,res) => {
     let perPage = 10;
     let page = req.params.page || 1;

@@ -4,79 +4,7 @@ let p = require('../model/product');
 let c = require('../model/categoryModel');
 let s = require('../model/subCategoryModel');
 
-//let admin = require('../middleware/admin');
-
-
-
-// router.get('/allUser', async(req,res) => {
-//     let user = await u.User.find();
-//     res.send({
-
-//         message : user
-//     });
-// } );
-
-// router.post('/addCategory', async(req,res) => {
-
-//     let subcat = await p.SubCategory.findById(req.body.subCategory);
-//     if(!subcat){return res.status(400).send('invalid subCategory id')}
-//     let data = new p.Category({
-//         categoryName: req.body.categoryName,
-//         subCategory: {
-//             _id:subcat._id,
-//             name: subcat.name
-//         }
-//     });
-//     // let cat= new p.Category(req.body);
-//        let  cat= await data.save();
-//          res.send({message:'Success', data:cat})
-
-// });
-
-// router.post('/addCategory', async(req,res) => {
-//     let cat= new p.Category(req.body);
-//     cat= await cat.save();
-//         res.send({message:'Success', data:cat})
-
-// });
-
-// router.get('/allCategory', async(req,res) => {
-//     let cat = await p.Category.find()
-   
-//     ;
-//     res.send(cat);
-// } );
-
-// router.post('/addSubCategory', async(req,res) => {
-//     let subcat= new p.SubCategory(req.body);
-//     subcat= await subcat.save();
-//         res.send({message:'Success', data:subcat})
-
-// });
-
-
-// router.get('/allSubCategory', async(req,res) => {
-//     let subCat = await p.SubCategory.find()
-   
-//     ;
-//     res.send(subCat);
-// } );
-
-// router.get('/findCategoryById/:id', async(req,res) => {
-//     let subCat = await p.Category.findById(req.params.id);
-//     if(!subCat) {
-//         return res.status(403).send('this product not available');
-//     };
-//     res.send(subCat);
-// } );
-
-// router.delete('/deleteCategoryById/:id',async (req,res) => {
-//     let data = await p.Category.findByIdAndRemove(req.params.id);
-//     if(!data) {return res.status(402).send('invalid category')}
-//     res.send({message: 'remve the data'});
-//     });
-
-
+// product add URL
 router.post('/addProduct', async(req,res) => {
 
         let catgr = await c.Category.findById(req.body.categoryId);
@@ -196,6 +124,48 @@ router.post('/pageIndex/:page' , async(req,res) => {
         totaluserCount: totalUser,
         totalPages: totalPages
     })
-})      
+})  
+//pagination by subcategory
+router.post('/category/:catId/subcategory/:subcatId/page/:pageIndex' , async(req,res) => {
+    let perPage = 3;
+    let page = req.params.pageIndex || 1;
+    let cat = await c.Category.findById(req.params.catId);
+    let subcat = await s.SubCategory.findById(req.params.subcatId);
+
+    let data  = await p.Product.find({"category.categoryName": cat.categoryName , "subCategory.name": subcat.name})
+                            .skip((perPage * page) - perPage)
+                             .limit(perPage);
+    let totalUser = await p.Product.find({"category.categoryName": cat.categoryName , "subCategory.name": subcat.name}).count();
+    let totalPages = Math.ceil(totalUser/perPage);
+    res.send({
+        perPage: perPage,
+        page:page,
+        userData:data,
+        totaluserCount: totalUser,
+        totalPages: totalPages
+    })
+})  
+
+//pagination by category
+router.post('/category/:catId/page/:pageIndex' , async(req,res) => {
+    let perPage = 3;
+    let page = req.params.pageIndex || 1;
+    let cat = await c.Category.findById(req.params.catId);
+    //let subcat = await s.SubCategory.findById(req.params.subcatId);
+
+    let data  = await p.Product.find({"category.categoryName": cat.categoryName })
+                            .skip((perPage * page) - perPage)
+                             .limit(perPage);
+    let totalUser = await p.Product.find({"category.categoryName": cat.categoryName }).count();
+    let totalPages = Math.ceil(totalUser/perPage);
+    res.send({
+        perPage: perPage,
+        page:page,
+        userData:data,
+        totaluserCount: totalUser,
+        totalPages: totalPages
+    })
+})
+
 
 module.exports = router;

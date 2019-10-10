@@ -3,7 +3,7 @@ let router = express.Router();
 let c = require('../model/contact');
 const Admin = require('../middleware/admin')
 
-
+// Show all contact
 router.get('/allContact', async(req,res) => {
     let user = await c.Contact.find()
    
@@ -11,6 +11,8 @@ router.get('/allContact', async(req,res) => {
     res.send(user);
 } );
 
+
+// Add New contact
 router.post('/newContact', async(req,res) => {
     let {error} = c.ValidationError(req.body);
     if(error) {return res.status(402).send(error.details[0].message)}
