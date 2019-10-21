@@ -5,13 +5,13 @@ let Joi = require('@hapi/joi');
 
 
 let CardItemSchema = new mongoose.Schema({
-    prodId:{type:String,required:true,min:5,max:250},
-    name:{type:String,required:true,min:5,max:250},
-    image:{type:String,required:true,min:5,max:250},
+    prodId:{type:String,min:5,max:250},
+    name:{type:String,min:5,max:250},
+    image:{type:String,min:5,max:250}, 
     price:{type:Number,required:true,minlength:1},
     quantity:{type:Number,required:true,minlength:1},
     totalPrice:{type:Number,required:true,minlength:1},
-    offerPrice:{type:Number,required:true,minlength:1},
+
     recordDate:{type:Date,default:Date.now},
     updateDate:{type:Date,default:Date.now}
 
@@ -29,9 +29,9 @@ let UserCardItem = mongoose.model('userCardItem', usercardSchema);
 
 function ValidationError(message){
     let Schema = Joi.object().keys({
-        prodId: Joi.string().required().min(5).max(250),
-        name:Joi.string().min(5).max(250).required(),
-        image:Joi.string().min(5).max(250).required(),
+        prodId: Joi.string().min(5).max(250),
+        name:Joi.string().min(5).max(250),
+        image:Joi.string().min(5).max(250),
         price: Joi.number().required().min(5).max(250),
         quantity: Joi.number().required().min(5).max(250),
         totalPrice: Joi.number().required().min(5).max(250),

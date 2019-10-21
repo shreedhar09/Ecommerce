@@ -3,6 +3,8 @@ let router = express.Router();
 let p = require('../model/product');
 let c = require('../model/categoryModel');
 let s = require('../model/subCategoryModel');
+let Admin = require('../middleware/admin');
+let Auth = require('../middleware/auth');
 
 // product add URL
 router.post('/addProduct', async(req,res) => {
@@ -71,9 +73,9 @@ router.get('/allProduct', async(req,res) => {
 } );
 
 //delete Product record by id
-router.delete('/removeProduct/:id',async (req,res) => {
+router.delete('/removeProduct/:id',[Auth,Admin], async (req,res) => {
     let data = await p.Product.findByIdAndRemove(req.params.id);
-    if(!data) {return res.status(402).send('invalid token')}
+    if(!data) {return res.status(402).send('Product Not Found')}
     res.send({message: 'remve the data'});
     });
 
@@ -160,6 +162,7 @@ router.post('/category/:catId/page/:pageIndex' , async(req,res) => {
     let totalPages = Math.ceil(totalUser/perPage);
     res.send({
         perPage: perPage,
+        
         page:page,
         userData:data,
         totaluserCount: totalUser,

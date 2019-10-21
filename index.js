@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 require('./controller/connection')(mongoose);
 require('./controller/routes')(app)
 
-//app.use(express.json());
+
 if(!config.get('EcommercePRIVATEKEY')){
     console.log('Server get crashed');
     process.exit(1);

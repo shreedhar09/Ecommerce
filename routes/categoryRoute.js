@@ -24,6 +24,7 @@ router.post('/addCategory', async(req,res) => {
 });
 
 
+
 // Show all category
 router.get('/allCategory', async(req,res) => {
     let cat = await category.Category.find()
